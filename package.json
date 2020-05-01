@@ -1,0 +1,22 @@
+{
+  "name": "select",
+  "version": "0.0.1",
+  "description": "",
+  "main": "process.js",
+  "scripts": {
+    "build": "browserify src/process.js -s Process | uglifyjs -cm > process.js && browserify src/render.js -s Render | uglifyjs -cm > render.js",
+    "build-dev": "browserify src/process.js -s Process > process.js && browserify src/render.js -s Render > render.js",
+    "watch": "nodemon --watch src --ext js,css,html --exec 'npm run build-dev'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anton Zemlyansky",
+  "dependencies": {
+    "boruta": "0.0.1",
+    "csv-parse": "^4.8.9",
+    "ml-knn": "^3.0.0",
+    "ml-logistic-regression": "^1.0.2",
+    "ml-matrix": "^6.4.1",
+    "ml-regression-multivariate-linear": "^2.0.3",
+    "plotly.js": "^1.53.0"
+  }
+}
