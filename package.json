@@ -11,12 +11,18 @@
   },
   "author": "Anton Zemlyansky",
   "dependencies": {
-    "boruta": "0.0.1",
+    "boruta": "0.0.2",
     "csv-parse": "^4.8.9",
+    "importance": "0.0.4",
     "ml-knn": "^3.0.0",
     "ml-logistic-regression": "^1.0.2",
     "ml-matrix": "^6.4.1",
     "ml-regression-multivariate-linear": "^2.0.3",
     "plotly.js": "^1.53.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.5.1",
+    "nodemon": "^2.0.3",
+    "uglify-es": "^3.3.9"
   }
 }

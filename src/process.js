@@ -1,6 +1,6 @@
 // const boruta = require('boruta')
 const { Matrix } = require('ml-matrix')
-const boruta = require('/home/anton/projects/boruta/index')
+const boruta = require('boruta')
 const parse = require('csv-parse/lib/sync')
 const importance = require('importance')
 const KNN = require('ml-knn')
@@ -35,18 +35,17 @@ module.exports = class Process {
         skip_empty_lines: true
       })
       this.keys = Object.keys(this.records[0]).filter(key => key.length)
-      console.log('New file. Return variable names:', this.keys)
+      console.log('Variable names:', this.keys.join(', '))
       return {
         'Target variable': {
           options: this.keys
         }
       }
     } else {
-      console.log('Starting with parameters:', params)
       const features = this.keys.filter(k => (k !== params.target) && k.length)
       const X = this.records.map(row => features.map(f => row[f]))
       const y = this.records.map(row => row[params.target])
-      console.log('Data:', X, y, features)
+      // console.log('Data:', X, y, features)
       console.log('Target variable:', params.target ? params.target : 'None')
 
       if (params.model.includes('RF')) {

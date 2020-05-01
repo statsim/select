@@ -19,7 +19,7 @@ module.exports = class Render {
   render (data) {
     const { imp, features, model } = data
     const mean = (x) => x.reduce((a, v) => a + v / x.length, 0)
-    console.log(imp)
+    // console.log(imp)
 
     const traces = features
       .map((f, fi) => ({
@@ -35,8 +35,6 @@ module.exports = class Render {
         }
       }))
       .sort((a, b) => mean(a.y) - mean(b.y))
-    console.log('Data for render', traces)
-    traces.forEach(t => { console.log(t.name, mean(t.y), t.y) })
 
     ;['shadowMin', 'shadowMax', 'shadowMean'].forEach(s => {
       traces.push({
@@ -59,9 +57,13 @@ module.exports = class Render {
     }
     Plotly.newPlot(this.divPlot, traces, layout)
 
-    this.divProgress.innerHTML = ''
-    features.forEach(f => {
-      this.divProgress.innerHTML += `<b>${f}</b>: ${imp.finalDecision[f]}<br>`
-    })
+    let table = ''
+    table = '<table>\n<tr><th>Feature</th><th>Feature importance</th><th>Status</th></tr>\n'
+    for (let i = traces.length - 4; i >= 0; i--) {
+      const t = traces[i]
+      table += `<tr><td>${t.name}</td><td>${mean(t.y)}</td><td class="${imp.finalDecision[t.name].toLowerCase()}">${imp.finalDecision[t.name]}</td></tr>\n`
+    }
+    table += '</table>'
+    this.divProgress.innerHTML = table
   }
 }
