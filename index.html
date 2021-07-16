@@ -3,26 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>All-relevant feature selection with Boruta.js | StatSim</title>
+    <title>Feature selection with Boruta.js online | StatSim Select</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="https://statsim.com/port/css/port.css" media="screen"/>
     <link rel="icon" type="image/png" href="https://statsim.com/app/images/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://statsim.com/app/images/favicon-16x16.png" sizes="16x16">
+    <link type="text/css" rel="stylesheet" href="https://statsim.com/assets/common.css" media="screen"/>
     <style>
       a { color: #19BCB0 }
       .rejected { color: #CE2A62 }
+      .file-field .btn { background: #BBB }
+      .file-field .btn:hover { background: #AAA }
       .confirmed { color: #19BCB0 }
+      .status-bar { background: #f5f5f5 }
     </style>
   </head>
   <body>
-    <div style="font-weight: 300">
+    <div class="status-bar">
       <div class="container">
         <div class="row">
-          <div class="col s11" style="font-size: 14px;">
-            <a href="">StatSim</a> → Select
-          </div>
-          <div class="col s1" style="font-size: 13px; color: #AAA; text-align: right">
-            0.0.1
+          <div class="col s12" style="font-size: 14px;">
+            <div id="menu"></div>
+            <a href="">StatSim</a> → <b>Select</b>
+            <span class="version">Version: 0.2.0</span>
           </div>
         </div>
       </div>
@@ -30,8 +33,9 @@
     <div class="container">
       <div class="row">
         <div class="col m12">
-          <h4>All-relevant feature selection with Boruta.js</h4>
-          <p>Feature selection methods identify important variables in a dataset. Many of those methods search for a minimal feature subset that can be used to predict a target variable well. When you want to understand relationships between variables, it's more important to select all relevant variables, not just the minimal set. Boruta (<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.232.7660&rep=rep1&type=pdf">Kursa, Rudnicki 2010</a>) is one of the most advanced method for such all-relevant feature selection. We ported the original Boruta algorithm to JavaScript so you can use it here without installing R or sending data to a server. All processing happens in the browser, on your local machine. </p>
+          <h1>Feature selection with Boruta.js online</h1>
+          <h2>Find all relevant variables in a dataset using a robust feature importance method</h2>
+          <p>Feature selection methods try to identify important variables in a dataset. Many of those methods search for a minimal feature subset that can predict a target variable well. When you want to understand relationships between variables, it's more important to select all relevant variables, not just the minimal set. Boruta (<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.232.7660&rep=rep1&type=pdf">Kursa, Rudnicki 2010</a>) is one of the most advanced methods for such all-relevant feature selection. We <a href="https://github.com/zemlyansky/boruta.js">ported</a> the original Boruta algorithm to JavaScript, so you can use it online without installing R, Python, or sending data to some web server. All processing happens in the browser, on your local machine. </p>
         </div>
       </div>
       <div class="row">
@@ -40,6 +44,7 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://statsim.com/port/dist/port.js"></script>
+    <script src="https://statsim.com/assets/common.js"></script>
     <script>
       var port = new Port({
         portContainer: document.getElementById('port-container'),
@@ -64,7 +69,18 @@
           "inputs": [
             { "type": "file", "name": "File", "reactive": true },
             { "type": "select", "name": "Target variable" },
-            { "type": "select", "name": "Base model", "options": ["Linear Regression", "Logistic Regression", "KNN Classifier", "RF Auto", "RF Classifier", "RF Regression"], "default": "RF Auto", "onchange": (value) => { 
+            { "type": "select", "name": "Base model", 
+              "options": [
+                "Linear Regression",
+                "Logistic Regression",
+                "KNN Classifier",
+                "RF Auto",
+                "RF Classifier",
+                "RF Regression",
+                // "XGB Classifier",
+                // "XGB Regression",
+              ],
+              "default": "RF Auto", "onchange": (value) => { 
               if (value === 'Linear Regression' || value === 'Logistic Regression' || value === 'KNN Classifier') {
                 return {
                   'N estimators': {'className': 'hidden'},
@@ -81,7 +97,7 @@
             { "type": "float", "name": "P value", "default": 0.01},
             { "type": "int", "name": "N repeats", "default": 5},
             { "type": "int", "name": "N estimators", "default": 100 },
-            { "type": "int", "name": "Max depth", "default": 10 },
+            { "type": "int", "name": "Max depth", "default": 6 },
           ]
         }
       })
